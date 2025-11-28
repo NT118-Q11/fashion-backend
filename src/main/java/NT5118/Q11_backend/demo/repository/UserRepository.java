@@ -2,10 +2,10 @@ package NT5118.Q11_backend.demo.repository;
 
 import NT5118.Q11_backend.demo.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
-@Repository
-public class UserRepository extends MongoRepository<User, String> {
-    // Custom finder methods can be added here, e.g.:
-    // Optional<User> findByEmail(String email);
+public interface UserRepository extends MongoRepository<User, String> {
+    boolean existsByEmail(String email);
+    boolean existsByUsername(String username);
+    Optional<User> findByEmail(String email);
 }
