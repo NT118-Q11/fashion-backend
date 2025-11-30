@@ -1,20 +1,21 @@
-package NT5118.Q11_backend.demo.service;
+package NT5118.Q11_backend.fashion.auth.service.implementations;
 
-import NT5118.Q11_backend.demo.dto.UserRegistrationRequest;
-import NT5118.Q11_backend.demo.model.User;
-import NT5118.Q11_backend.demo.repository.UserRepository;
+import NT5118.Q11_backend.fashion.auth.dto.UserRegistrationRequest;
+import NT5118.Q11_backend.fashion.auth.service.AuthService;
+import NT5118.Q11_backend.fashion.user.model.User;
+import NT5118.Q11_backend.fashion.user.repository.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -39,3 +40,4 @@ public class UserServiceImpl implements UserService {
         }
     }
 }
+

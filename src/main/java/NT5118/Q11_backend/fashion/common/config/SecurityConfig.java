@@ -1,4 +1,4 @@
-package NT5118.Q11_backend.demo.config;
+package NT5118.Q11_backend.fashion.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

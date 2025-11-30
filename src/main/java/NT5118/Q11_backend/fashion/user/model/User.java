@@ -1,4 +1,4 @@
-package NT5118.Q11_backend.demo.model;
+package NT5118.Q11_backend.fashion.user.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -37,3 +37,4 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password;}
 }
+

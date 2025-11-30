@@ -1,6 +1,6 @@
-package NT5118.Q11_backend.demo.repository;
+package NT5118.Q11_backend.fashion.user.repository;
 
-import NT5118.Q11_backend.demo.model.User;
+import NT5118.Q11_backend.fashion.user.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
@@ -9,3 +9,4 @@ public interface UserRepository extends MongoRepository<User, String> {
     boolean existsByUsername(String username);
     Optional<User> findByEmail(String email);
 }
+

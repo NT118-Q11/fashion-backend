@@ -1,10 +1,10 @@
-package NT5118.Q11_backend.demo;
+package NT5118.Q11_backend.fashion;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class DemoApplicationTests {
+class FashionApplicationTests {
 
     @Test
     void simpleSmokeTest() {
@@ -12,3 +12,4 @@ class DemoApplicationTests {
         assertTrue(true);
     }
 }
+

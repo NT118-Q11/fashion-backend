@@ -1,4 +1,4 @@
-package NT5118.Q11_backend.demo.config;
+package NT5118.Q11_backend.fashion.common.config;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class  GlobalExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidation(MethodArgumentNotValidException ex) {
@@ -39,3 +39,4 @@ public class  GlobalExceptionHandler {
                 .body(Map.of("error", "Internal server error"));
     }
 }
+

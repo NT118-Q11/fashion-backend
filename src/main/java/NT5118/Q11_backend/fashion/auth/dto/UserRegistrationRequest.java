@@ -1,4 +1,4 @@
-package NT5118.Q11_backend.demo.dto;
+package NT5118.Q11_backend.fashion.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -24,3 +24,4 @@ public class UserRegistrationRequest {
     public String getPassword() { return password;}
     public void setPassword(String password) {this.password = password;}
 }
+
