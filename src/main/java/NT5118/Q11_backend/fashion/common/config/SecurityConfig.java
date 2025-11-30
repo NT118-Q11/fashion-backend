@@ -18,13 +18,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // Disable CSRF for public endpoints (register, login)
+                // Disable CSRF for public endpoints (register, login, swagger)
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/auth/register", "/api/auth/login")
+                        .ignoringRequestMatchers("/api/auth/register", "/api/auth/login", "/swagger-ui/**", "/v3/api-docs/**")
                 )
                 // Configure authorization
                 .authorizeHttpRequests(authz -> authz
+                        // Public endpoints
                         .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+                        // Swagger/OpenAPI endpoints
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Enable CORS

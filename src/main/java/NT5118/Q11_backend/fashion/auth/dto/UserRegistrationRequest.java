@@ -1,18 +1,23 @@
 package NT5118.Q11_backend.fashion.auth.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+@Schema(description = "User registration request")
 public class UserRegistrationRequest {
+    @Schema(description = "Username", example = "john_doe", required = true, minLength = 3, maxLength = 50)
     @NotBlank(message = "Username is required")
     @Size(min = 3, max = 50)
     private String username;
 
+    @Schema(description = "Email address", example = "john@example.com", required = true)
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email")
     private String email;
 
+    @Schema(description = "Password", example = "password123", required = true, minLength = 6)
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
