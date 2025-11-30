@@ -17,12 +17,19 @@ public class User {
 
     private String password; // hashed
 
+    @Indexed(unique = true)
+    private String phone_number = "0";
+
+    private String user_address;
+
+
     // constructors, getters, setters
     public User() {}
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, String phone_number) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.phone_number = phone_number;
     }
 
     public String getId() { return id; }
@@ -36,5 +43,11 @@ public class User {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password;}
-}
 
+    public String getPhone_number() { return phone_number;}
+    public void setPhone_number(String phoneNumber) {this.phone_number = phoneNumber;}
+
+    public String getUser_address() { return user_address; }
+    public void setUser_address(String user_address) { this.user_address = user_address; }
+
+}
