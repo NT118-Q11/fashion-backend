@@ -29,15 +29,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // Disable CSRF for public endpoints (register, login)
+                // Disable CSRF for public endpoints (register, login, swagger, oauth2)
                 .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api/auth/register", "/api/auth/login", "/swagger-ui/**", "/v3/api-docs/**",
                         .ignoringRequestMatchers("/api/auth/register", "/api/auth/login", "/swagger-ui/**", "/v3/api-docs/**",
                                 "/api/auth/oauth2/**", "/api/auth/register-gmail", "/api/auth/login-gmail")
                 )
                 // Configure authorization
                 .authorizeHttpRequests(authz -> authz
                         // Public endpoints
+                        // Public endpoints
                         .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+                        // Swagger/OpenAPI endpoints
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/auth/register-gmail", "/api/auth/login-gmail").permitAll()
                         .requestMatchers("/api/auth/oauth2/**").permitAll()
                         .requestMatchers("/oauth2/**", "/login/**", "/oauth2/authorization/**").permitAll()
