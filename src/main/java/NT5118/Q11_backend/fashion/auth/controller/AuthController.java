@@ -2,6 +2,7 @@ package NT5118.Q11_backend.fashion.auth.controller;
 
 import NT5118.Q11_backend.fashion.auth.dto.UserRegistrationRequest;
 import NT5118.Q11_backend.fashion.auth.dto.UserLoginRequest;
+import NT5118.Q11_backend.fashion.auth.dto.GoogleOAuth2UserInfo;
 import NT5118.Q11_backend.fashion.auth.service.AuthService;
 import NT5118.Q11_backend.fashion.user.model.User;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,38 @@ public class AuthController {
         User user = authService.login(request);
         return ResponseEntity.ok(java.util.Map.of(
                 "message", "Login successful",
+                "user", java.util.Map.of(
+                        "id", user.getId(),
+                        "username", user.getUsername(),
+                        "email", user.getEmail(),
+                        "phone_number", user.getPhone_number() != null ? user.getPhone_number() : "",
+                        "user_address", user.getUser_address() != null ? user.getUser_address() : ""
+                )
+        ));
+    }
+
+    // Google register (accepts Google user info payload)
+    @PostMapping("/register-gmail")
+    public ResponseEntity<?> registerWithGoogle(@RequestBody GoogleOAuth2UserInfo info) {
+        User user = authService.registerOAuthUser(info);
+        return ResponseEntity.status(201).body(java.util.Map.of(
+                "message", "User registered with Google successfully",
+                "user", java.util.Map.of(
+                        "id", user.getId(),
+                        "username", user.getUsername(),
+                        "email", user.getEmail(),
+                        "phone_number", user.getPhone_number() != null ? user.getPhone_number() : "",
+                        "user_address", user.getUser_address() != null ? user.getUser_address() : ""
+                )
+        ));
+    }
+
+    // Google login (accepts Google user info payload) - will return existing or created user
+    @PostMapping("/login-gmail")
+    public ResponseEntity<?> loginWithGoogle(@RequestBody GoogleOAuth2UserInfo info) {
+        User user = authService.registerOAuthUser(info);
+        return ResponseEntity.ok(java.util.Map.of(
+                "message", "Login with Google successful",
                 "user", java.util.Map.of(
                         "id", user.getId(),
                         "username", user.getUsername(),
