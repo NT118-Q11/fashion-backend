@@ -1,5 +1,7 @@
 package NT5118.Q11_backend.fashion.common.config;
 
+import NT5118.Q11_backend.fashion.auth.service.GoogleOAuth2UserService;
+import NT5118.Q11_backend.fashion.auth.service.OAuth2AuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +17,15 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final GoogleOAuth2UserService googleOAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
+
+    public SecurityConfig(GoogleOAuth2UserService googleOAuth2UserService,
+                          OAuth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler) {
+        this.googleOAuth2UserService = googleOAuth2UserService;
+        this.oauth2AuthenticationSuccessHandler = oauth2AuthenticationSuccessHandler;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -26,12 +37,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         // Public endpoints
                         .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+                        .requestMatchers("/oauth2/**", "/login/**", "/oauth2/authorization/**").permitAll()
                         // Swagger/OpenAPI endpoints
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Enable CORS
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // Enable OAuth2 login
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo.userService(googleOAuth2UserService))
+                        .successHandler(oauth2AuthenticationSuccessHandler)
+                );
 
         return http.build();
     }
@@ -49,4 +66,3 @@ public class SecurityConfig {
         return source;
     }
 }
-
