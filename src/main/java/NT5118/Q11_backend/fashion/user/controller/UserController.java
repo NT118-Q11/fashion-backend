@@ -82,7 +82,7 @@ public class UserController {
     @GetMapping("/{id}/address")
     public ResponseEntity<?> getUserAddress(@PathVariable String id) {
         return userService.getUserById(id)
-                .map(user -> ResponseEntity.ok(Map.of("user_address", user.getUser_address() != null ? user.getUser_address() : "")))
+                .map(user -> ResponseEntity.ok(Map.of("user_address", user.getUserAddress() != null ? user.getUserAddress() : "")))
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -90,9 +90,9 @@ public class UserController {
     public ResponseEntity<?> createUserAddress(@PathVariable String id, @RequestBody Map<String, String> payload) {
         return userService.getUserById(id)
                 .map(user -> {
-                    user.setUser_address(payload.get("user_address"));
+                    user.setUserAddress(payload.get("user_address"));
                     User updated = userService.updateUser(user);
-                    return ResponseEntity.ok(Map.of("message", "User address created successfully", "user_address", updated.getUser_address()));
+                    return ResponseEntity.ok(Map.of("message", "User address created successfully", "user_address", updated.getUserAddress()));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -101,9 +101,9 @@ public class UserController {
     public ResponseEntity<?> updateUserAddress(@PathVariable String id, @RequestBody Map<String, String> payload) {
         return userService.getUserById(id)
                 .map(user -> {
-                    user.setUser_address(payload.get("user_address"));
+                    user.setUserAddress(payload.get("user_address"));
                     User updated = userService.updateUser(user);
-                    return ResponseEntity.ok(Map.of("message", "User address updated successfully", "user_address", updated.getUser_address()));
+                    return ResponseEntity.ok(Map.of("message", "User address updated successfully", "user_address", updated.getUserAddress()));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
