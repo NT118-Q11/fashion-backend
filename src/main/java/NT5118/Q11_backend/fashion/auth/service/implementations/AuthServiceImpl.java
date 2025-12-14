@@ -63,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
         if (username.contains("@")) {
             user = userRepository.findByEmail(username).orElse(null);
         } else if (username.matches("\\d{10,11}")) {
-            user = userRepository.findByPhoneNumber(username).orElse(null);
+            user = userRepository.findByPhone_number(username).orElse(null);
         }
 
         // If not found by email or phone, try username
