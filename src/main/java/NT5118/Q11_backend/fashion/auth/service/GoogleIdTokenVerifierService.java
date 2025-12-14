@@ -24,9 +24,30 @@ public class GoogleIdTokenVerifierService {
 
     private final GoogleIdTokenVerifier verifier;
 
-    public GoogleIdTokenVerifierService(@Value("${spring.security.oauth2.client.registration.google.client-id}") String clientId) {
+    public GoogleIdTokenVerifierService(
+            @Value("${spring.security.oauth2.client.registration.google.client-id}") String webClientId,
+            @Value("${app.oauth2.google.android-client-id}") String androidClientId) {
+
+        // Accept both Web Client ID and Android Client ID
+        // This allows tokens from both web and Android clients
+        java.util.List<String> acceptedAudiences = new java.util.ArrayList<>();
+
+        // Add web client ID if configured
+        if (webClientId != null && !webClientId.trim().isEmpty()) {
+            acceptedAudiences.add(webClientId);
+        }
+
+        // Add Android client ID if configured
+        if (androidClientId != null && !androidClientId.trim().isEmpty()) {
+            acceptedAudiences.add(androidClientId);
+        }
+
+        if (acceptedAudiences.isEmpty()) {
+            throw new IllegalStateException("No Google OAuth2 Client IDs configured. Please set GOOGLE_CLIENT_ID or GOOGLE_ANDROID_CLIENT_ID");
+        }
+
         this.verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-                .setAudience(Collections.singletonList(clientId))
+                .setAudience(acceptedAudiences)
                 .build();
     }
 

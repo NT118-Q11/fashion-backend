@@ -77,6 +77,17 @@ public class AuthController {
     // Google login (accepts Google user info payload) - will return existing or created user
     @PostMapping("/login-gmail")
     public ResponseEntity<?> loginWithGoogle(@RequestBody GoogleOAuth2UserInfo info) {
+        // Validate request has ID token
+        if (info == null || info.getAccessToken() == null || info.getAccessToken().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(java.util.Map.of(
+                    "error", "Invalid OAuth2 user info - ID token is required",
+                    "message", "The 'accessToken' field must contain a valid Google ID token (JWT). " +
+                              "Make sure your Android client calls .requestIdToken(WEB_CLIENT_ID) " +
+                              "and sends account.idToken in the accessToken field.",
+                    "hint", "See TROUBLESHOOTING_409_ERROR.md for detailed instructions"
+            ));
+        }
+
         User user = authService.registerOAuthUser(info);
         return ResponseEntity.ok(java.util.Map.of(
                 "message", "Login with Google successful",
