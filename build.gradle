@@ -46,3 +46,9 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Explicitly set the main class for Spring Boot
+springBoot {
+	mainClass = 'NT5118.Q11_backend.fashion.FashionApplication'
+}
+
