@@ -29,13 +29,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // Disable CSRF for public endpoints (register, login)
+                // Disable CSRF for public endpoints (register, login, oauth2)
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/auth/register", "/api/auth/login")
+                        .ignoringRequestMatchers("/api/auth/register", "/api/auth/login",
+                                "/api/auth/oauth2/**", "/api/auth/register-gmail", "/api/auth/login-gmail")
                 )
                 // Configure authorization
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/register-gmail", "/api/auth/login-gmail").permitAll()
+                        .requestMatchers("/api/auth/oauth2/**").permitAll()
                         .requestMatchers("/oauth2/**", "/login/**", "/oauth2/authorization/**").permitAll()
                         .anyRequest().authenticated()
                 )

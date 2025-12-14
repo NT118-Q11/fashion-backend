@@ -19,7 +19,7 @@ public class UserRegistrationRequest {
 
     @NotBlank(message = "Phone number is required")
     @Size(min = 10, max = 11)
-    private String phone_number;
+    private String phoneNumber;
 
     public String getUsername() { return username; }
     public void setUsername(String username) {this.username = username;}
@@ -30,7 +30,7 @@ public class UserRegistrationRequest {
     public String getPassword() { return password;}
     public void setPassword(String password) {this.password = password;}
 
-    public String getPhone_number() { return phone_number;}
-    public void setPhone_number(String phone_number) {this.password = phone_number;}
+    public String getPhoneNumber() { return phoneNumber;}
+    public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
 }
 
