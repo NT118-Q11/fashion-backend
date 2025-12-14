@@ -2,8 +2,11 @@ package NT5118.Q11_backend.fashion.auth.service.implementations;
 
 import NT5118.Q11_backend.fashion.auth.dto.GoogleOAuth2UserInfo;
 import NT5118.Q11_backend.fashion.auth.dto.UserLoginRequest;
+import NT5118.Q11_backend.fashion.auth.dto.GoogleOAuth2UserInfo;
+import NT5118.Q11_backend.fashion.auth.dto.UserLoginRequest;
 import NT5118.Q11_backend.fashion.auth.dto.UserRegistrationRequest;
 import NT5118.Q11_backend.fashion.auth.service.AuthService;
+import NT5118.Q11_backend.fashion.auth.service.GoogleIdTokenVerifierService;
 import NT5118.Q11_backend.fashion.auth.service.GoogleIdTokenVerifierService;
 import NT5118.Q11_backend.fashion.user.model.User;
 import NT5118.Q11_backend.fashion.user.repository.UserRepository;
@@ -18,18 +21,29 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final GoogleIdTokenVerifierService tokenVerifier;
+    private final GoogleIdTokenVerifierService tokenVerifier;
 
+    public AuthServiceImpl(UserRepository userRepository,
+                          PasswordEncoder passwordEncoder,
+                          GoogleIdTokenVerifierService tokenVerifier) {
     public AuthServiceImpl(UserRepository userRepository,
                           PasswordEncoder passwordEncoder,
                           GoogleIdTokenVerifierService tokenVerifier) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenVerifier = tokenVerifier;
+        this.tokenVerifier = tokenVerifier;
     }
 
     @Override
     @Transactional
     public User register(UserRegistrationRequest request) {
+        // Validate that username must be either phoneNumber or email
+        if (!request.getUsername().equals(request.getEmail()) &&
+            !request.getUsername().equals(request.getPhoneNumber())) {
+            throw new IllegalArgumentException("Username must be either email or phone number");
+        }
+
         // Validate that username must be either phoneNumber or email
         if (!request.getUsername().equals(request.getEmail()) &&
             !request.getUsername().equals(request.getPhoneNumber())) {

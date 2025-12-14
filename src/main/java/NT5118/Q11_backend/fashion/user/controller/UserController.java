@@ -2,6 +2,11 @@ package NT5118.Q11_backend.fashion.user.controller;
 
 import NT5118.Q11_backend.fashion.user.model.User;
 import NT5118.Q11_backend.fashion.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "Users", description = "User management endpoints")
 public class UserController {
 
     private final UserService userService;
@@ -18,21 +24,36 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "Get user by ID", description = "Retrieve a user by their unique identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User found"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable String id) {
+    public ResponseEntity<?> getUserById(
+            @Parameter(description = "User ID", required = true) @PathVariable String id) {
         return userService.getUserById(id)
                 .map(user -> ResponseEntity.ok(user))
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Get all users", description = "Retrieve a list of all users")
+    @ApiResponse(responseCode = "200", description = "List of users")
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
+    @Operation(summary = "Update user", description = "Update an existing user's information")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User updated successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody User user) {
+    public ResponseEntity<?> updateUser(
+            @Parameter(description = "User ID", required = true) @PathVariable String id,
+            @RequestBody User user) {
         return userService.getUserById(id)
                 .map(existingUser -> {
                     user.setId(id);
@@ -42,8 +63,14 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Delete user", description = "Delete a user by their ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable String id) {
+    public ResponseEntity<?> deleteUser(
+            @Parameter(description = "User ID", required = true) @PathVariable String id) {
         if (userService.getUserById(id).isPresent()) {
             userService.deleteUser(id);
             return ResponseEntity.ok(Map.of("message", "User deleted successfully"));
