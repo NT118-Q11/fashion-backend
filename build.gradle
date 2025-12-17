@@ -16,12 +16,14 @@ java {
 
 repositories {
 	mavenCentral()
+    google()
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -30,7 +32,9 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-    // Removed duplicate validation and removed JPA + MySQL driver because this project uses MongoDB
+    implementation 'com.google.api-client:google-api-client:1.34.1'
+    implementation 'com.google.api-client:google-api-client-jackson2:1.34.1'
+    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
@@ -42,3 +46,9 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Explicitly set the main class for Spring Boot
+springBoot {
+	mainClass = 'NT5118.Q11_backend.fashion.FashionApplication'
+}
+
