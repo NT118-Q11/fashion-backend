@@ -72,20 +72,37 @@ Client (mobile/web) tự lấy token từ Google SDK rồi gửi lên backend.
 ## Cấu hình
 
 ### 1. Google Console
-Thêm Authorized redirect URI:
+
+**Cho Web Client (Server-side Flow):**
+1. Tạo OAuth 2.0 Client ID với type: **Web application**
+2. Thêm Authorized redirect URI:
 ```
 http://localhost:8080/api/auth/oauth2/callback/google
 ```
 
+**Cho Android Client (Mobile App):**
+1. Tạo OAuth 2.0 Client ID với type: **Android**
+2. Package name: `com.yourapp.package`
+3. SHA-1 certificate fingerprint: `81:30:0C:1B:2A:95:84:68:AE:4F:1D:C0:EB:21:E3:69:51:AD:63:68`
+4. Lưu lại Android Client ID
+
 ### 2. application.properties
 ```properties
-# Google OAuth2 credentials
-spring.security.oauth2.client.registration.google.client-id=YOUR_CLIENT_ID
+# Google OAuth2 credentials - Web Client (for server-side flow)
+spring.security.oauth2.client.registration.google.client-id=YOUR_WEB_CLIENT_ID
 spring.security.oauth2.client.registration.google.client-secret=YOUR_CLIENT_SECRET
+
+# Android Client ID (for mobile app ID token verification)
+app.oauth2.google.android-client-id=YOUR_ANDROID_CLIENT_ID
 
 # Custom redirect URI
 app.oauth2.google.redirect-uri=http://localhost:8080/api/auth/oauth2/callback/google
 ```
+
+**⚠️ QUAN TRỌNG:**
+- **Web Client ID**: Dùng cho server-side OAuth flow (GET endpoints)
+- **Android Client ID**: Dùng để verify ID tokens từ Android app (POST endpoints)
+- Backend sẽ accept tokens từ cả 2 Client IDs
 
 **Production:** Thay `http://localhost:8080` bằng domain thực tế của bạn.
 
@@ -191,9 +208,37 @@ if (token) {
 ```
 
 ### Android Example (AppRoute.kt):
-Vì Android không hỗ trợ redirect-based flow tốt, nên dùng **Client-side Flow**:
-1. Sử dụng Google Sign-In SDK để lấy ID token
-2. Gọi POST endpoint với token
+Android sử dụng **Client-side Flow** với ID Token:
+
+**Bước 1: Cấu hình Google Sign-In trong Android**
+- Thêm SHA-1 certificate fingerprint vào Google Console
+- Tạo Android OAuth 2.0 Client ID riêng
+- Cấu hình `google-services.json`
+
+**Bước 2: Lấy ID Token từ Google Sign-In**
+```kotlin
+val account = GoogleSignIn.getLastSignedInAccount(context)
+val idToken = account?.idToken // Đây là ID token cần gửi lên backend
+```
+
+**Bước 3: Gửi ID Token lên Backend**
+```kotlin
+val request = GoogleOAuth2UserInfo(
+    id = account.id,
+    email = account.email,
+    name = account.displayName,
+    picture = account.photoUrl?.toString(),
+    accessToken = idToken  // ⚠️ Quan trọng: gửi ID token ở field accessToken
+)
+
+// POST to /api/auth/login-gmail
+apiService.loginWithGoogle(request)
+```
+
+**⚠️ LƯU Ý QUAN TRỌNG:**
+- Backend cần **Android Client ID** để verify ID token từ Android app
+- Android Client ID khác với Web Client ID
+- Phải cấu hình trong `application.properties`: `app.oauth2.google.android-client-id`
 
 ---
 
