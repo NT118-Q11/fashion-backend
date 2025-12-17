@@ -29,10 +29,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // Disable CSRF for public endpoints (register, login, oauth2)
+                // Disable CSRF for public endpoints (register, login, oauth2, ratings)
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/api/auth/register", "/api/auth/login",
-                                "/api/auth/oauth2/**", "/api/auth/register-gmail", "/api/auth/login-gmail")
+                                "/api/auth/oauth2/**", "/api/auth/register-gmail", "/api/auth/login-gmail",
+                                "/api/ratings/**")
                 )
                 // Configure authorization
                 .authorizeHttpRequests(authz -> authz
@@ -40,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/register-gmail", "/api/auth/login-gmail").permitAll()
                         .requestMatchers("/api/auth/oauth2/**").permitAll()
                         .requestMatchers("/oauth2/**", "/login/**", "/oauth2/authorization/**").permitAll()
+                        .requestMatchers("/api/ratings/**").permitAll() // Allow public access to ratings API
                         .anyRequest().authenticated()
                 )
                 // Enable CORS
