@@ -31,8 +31,12 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public User register(UserRegistrationRequest request) {
         // Validate that username must be either phoneNumber or email
-        if (!request.getUsername().equals(request.getEmail()) &&
-            !request.getUsername().equals(request.getPhoneNumber())) {
+        boolean usernameMatchesEmail = request.getUsername().equals(request.getEmail());
+        boolean usernameMatchesPhone = request.getPhoneNumber() != null &&
+                                       !request.getPhoneNumber().trim().isEmpty() &&
+                                       request.getUsername().equals(request.getPhoneNumber());
+
+        if (!usernameMatchesEmail && !usernameMatchesPhone) {
             throw new IllegalArgumentException("Username must be either email or phone number");
         }
 
@@ -44,7 +48,12 @@ public class AuthServiceImpl implements AuthService {
         }
 
         String hashed = passwordEncoder.encode(request.getPassword());
-        User user = new User(request.getUsername(), request.getEmail(), hashed, request.getPhoneNumber());
+        // Handle null or empty phoneNumber - set default value
+        String phoneNumber = (request.getPhoneNumber() != null && !request.getPhoneNumber().trim().isEmpty())
+                           ? request.getPhoneNumber()
+                           : "0";
+        User user = new User(request.getUsername(), request.getEmail(), hashed, phoneNumber,
+                           request.getFirstName(), request.getLastName());
         try {
             return userRepository.save(user);
         } catch (DataIntegrityViolationException ex) {
@@ -142,7 +151,17 @@ public class AuthServiceImpl implements AuthService {
         String googleId = verifiedInfo.getId();
         String uniquePhoneNumber = "GOOGLE_" + googleId;
 
-        User user = new User(username, verifiedEmail, hashed, uniquePhoneNumber);
+        // Parse full name into firstName and lastName
+        String fullName = verifiedInfo.getName() != null ? verifiedInfo.getName() : "";
+        String firstName = "";
+        String lastName = "";
+        if (!fullName.isEmpty()) {
+            String[] nameParts = fullName.trim().split("\\s+", 2);
+            firstName = nameParts[0];
+            lastName = nameParts.length > 1 ? nameParts[1] : "";
+        }
+
+        User user = new User(username, verifiedEmail, hashed, uniquePhoneNumber, firstName, lastName);
         user.setUserAddress("");
         try {
             return userRepository.save(user);

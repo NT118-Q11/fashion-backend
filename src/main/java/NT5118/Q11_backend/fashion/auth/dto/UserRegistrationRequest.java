@@ -17,8 +17,15 @@ public class UserRegistrationRequest {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
-    @NotBlank(message = "Phone number is required")
-    @Size(min = 10, max = 11)
+    @NotBlank(message = "First name is required")
+    @Size(min = 1, max = 50)
+    private String firstName;
+
+    @NotBlank(message = "Last name is required")
+    @Size(min = 1, max = 50)
+    private String lastName;
+
+    @Size(min = 10, max = 11, message = "Phone number must be 10-11 digits")
     private String phoneNumber;
 
     public String getUsername() { return username; }
@@ -32,5 +39,11 @@ public class UserRegistrationRequest {
 
     public String getPhoneNumber() { return phoneNumber;}
     public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
+
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 }
 
