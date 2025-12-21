@@ -8,7 +8,7 @@ API endpoints for managing products in the Fashion Backend application. Supports
 - **Database**: `fashion_mongodb`
 
 ## Product Model Structure
-```json
+```bash
 {
   "id": "string",            // MongoDB generated ID
   "name": "string",          // Product name
@@ -95,7 +95,7 @@ curl -X POST http://localhost:8080/api/products \
 Retrieves all products in the catalog.
 
 **Response (200 OK):**
-```json
+```bash
 [
   {
     "id": "prod123",
@@ -192,7 +192,7 @@ Updates an existing product.
 Same as Create Product (all fields required).
 
 **Response (200 OK):**
-```json
+```bash
 {
   "message": "Product updated successfully",
   "product": {

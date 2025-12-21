@@ -38,7 +38,9 @@ public class AuthController {
                         "username", user.getUsername(),
                         "email", user.getEmail(),
                         "phone_number", user.getPhoneNumber() != null ? user.getPhoneNumber() : "",
-                        "user_address", user.getUserAddress() != null ? user.getUserAddress() : ""
+                        "user_address", user.getUserAddress() != null ? user.getUserAddress() : "",
+                        "firstName", user.getFirstName() != null ? user.getFirstName() : "",
+                        "lastName", user.getLastName() != null ? user.getLastName() : ""
                 )
         ));
     }
@@ -53,7 +55,9 @@ public class AuthController {
                         "username", user.getUsername(),
                         "email", user.getEmail(),
                         "phone_number", user.getPhoneNumber() != null ? user.getPhoneNumber() : "",
-                        "user_address", user.getUserAddress() != null ? user.getUserAddress() : ""
+                        "user_address", user.getUserAddress() != null ? user.getUserAddress() : "",
+                        "firstName", user.getFirstName() != null ? user.getFirstName() : "",
+                        "lastName", user.getLastName() != null ? user.getLastName() : ""
                 )
         ));
     }
@@ -69,7 +73,9 @@ public class AuthController {
                         "username", user.getUsername(),
                         "email", user.getEmail(),
                         "phone_number", user.getPhoneNumber() != null ? user.getPhoneNumber() : "",
-                        "user_address", user.getUserAddress() != null ? user.getUserAddress() : ""
+                        "user_address", user.getUserAddress() != null ? user.getUserAddress() : "",
+                        "firstName", user.getFirstName() != null ? user.getFirstName() : "",
+                        "lastName", user.getLastName() != null ? user.getLastName() : ""
                 )
         ));
     }
@@ -96,7 +102,9 @@ public class AuthController {
                         "username", user.getUsername(),
                         "email", user.getEmail(),
                         "phone_number", user.getPhoneNumber() != null ? user.getPhoneNumber() : "",
-                        "user_address", user.getUserAddress() != null ? user.getUserAddress() : ""
+                        "user_address", user.getUserAddress() != null ? user.getUserAddress() : "",
+                        "firstName", user.getFirstName() != null ? user.getFirstName() : "",
+                        "lastName", user.getLastName() != null ? user.getLastName() : ""
                 )
         ));
     }
