@@ -38,5 +38,39 @@ public interface UserService {
      * @param id User ID
      */
     void deleteUser(String id);
+
+    /**
+     * Update user's name
+     * @param id User ID
+     * @param firstName First name
+     * @param lastName Last name
+     * @return Updated user
+     */
+    User updateUserName(String id, String firstName, String lastName);
+
+    /**
+     * Update user's email
+     * @param id User ID
+     * @param email New email
+     * @return Updated user
+     */
+    User updateUserEmail(String id, String email);
+
+    /**
+     * Update user's phone number
+     * @param id User ID
+     * @param phoneNumber New phone number
+     * @return Updated user
+     */
+    User updateUserPhone(String id, String phoneNumber);
+
+    /**
+     * Update user's password
+     * @param id User ID
+     * @param oldPassword Old password
+     * @param newPassword New password
+     * @return Updated user
+     */
+    User updateUserPassword(String id, String oldPassword, String newPassword);
 }
 
