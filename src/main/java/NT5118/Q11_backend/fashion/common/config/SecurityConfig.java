@@ -35,6 +35,7 @@ public class SecurityConfig {
                                 "/api/auth/oauth2/**", "/api/auth/register-gmail", "/api/auth/login-gmail",
                                 "/api/auth/password/**",
                                 "/api/ratings/**", "/api/products", "/api/products/**",
+                                "/api/product-information", "/api/product-information/**",
                                 "/api/cart", "/api/cart/**",
                                 "/api/favorites", "/api/favorites/**",
                                 "/api/users", "/api/users/**",
@@ -49,6 +50,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/password/**").permitAll()
                         .requestMatchers("/oauth2/**", "/login/**", "/oauth2/authorization/**").permitAll()
                         .requestMatchers("/api/ratings/**", "/api/products", "/api/products/**").permitAll() // Allow public access to ratings API
+                        // Allow public access to product-information endpoints (temporary for development)
+                        .requestMatchers("/api/product-information", "/api/product-information/**").permitAll()
                         // Allow public access to cart endpoints (temporary for development)
                         .requestMatchers("/api/cart", "/api/cart/**").permitAll()
                         // Allow public access to favorites endpoints (temporary for development)
