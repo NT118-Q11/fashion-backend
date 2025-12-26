@@ -2,6 +2,7 @@ package NT5118.Q11_backend.fashion.order.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class OrderResponse {
     private String id;
@@ -10,17 +11,19 @@ public class OrderResponse {
     private String status;
     private String shippingAddress;
     private LocalDateTime createdAt;
+    private List<OrderItemResponse> items;
 
     // Constructors
     public OrderResponse() {}
 
-    public OrderResponse(String id, String userId, BigDecimal totalPrice, String status, String shippingAddress, LocalDateTime createdAt) {
+    public OrderResponse(String id, String userId, BigDecimal totalPrice, String status, String shippingAddress, LocalDateTime createdAt, List<OrderItemResponse> items) {
         this.id = id;
         this.userId = userId;
         this.totalPrice = totalPrice;
         this.status = status;
         this.shippingAddress = shippingAddress;
         this.createdAt = createdAt;
+        this.items = items;
     }
 
     // Getters and Setters
@@ -70,6 +73,14 @@ public class OrderResponse {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<OrderItemResponse> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItemResponse> items) {
+        this.items = items;
     }
 }
 

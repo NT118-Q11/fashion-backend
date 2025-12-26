@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import NT5118.Q11_backend.fashion.order.dto.OrderRequest;
 import NT5118.Q11_backend.fashion.order.dto.OrderResponse;
+import NT5118.Q11_backend.fashion.order.dto.OrderItemResponse;
 import NT5118.Q11_backend.fashion.order.model.Order;
 import NT5118.Q11_backend.fashion.order.repository.OrderRepository;
 
@@ -15,9 +16,11 @@ import NT5118.Q11_backend.fashion.order.repository.OrderRepository;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderItemService orderItemService;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderItemService orderItemService) {
         this.orderRepository = orderRepository;
+        this.orderItemService = orderItemService;
     }
 
     @Override
@@ -79,13 +82,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private OrderResponse mapToResponse(Order order) {
+        List<OrderItemResponse> items = orderItemService.getOrderItemsByOrderId(order.getId());
         return new OrderResponse(
                 order.getId(),
                 order.getUserId(),
                 order.getTotalPrice(),
                 order.getStatus(),
                 order.getShippingAddress(),
-                order.getCreatedAt()
+                order.getCreatedAt(),
+                items
         );
     }
 }

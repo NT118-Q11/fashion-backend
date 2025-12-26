@@ -6,16 +6,23 @@ public class OrderItemResponse {
     private String id;
     private String orderId;
     private String productId;
+    private String productName;
+    private String size;
+    private String color;
     private Integer quantity;
     private BigDecimal priceAtPurchase;
 
     // Constructors
     public OrderItemResponse() {}
 
-    public OrderItemResponse(String id, String orderId, String productId, Integer quantity, BigDecimal priceAtPurchase) {
+    public OrderItemResponse(String id, String orderId, String productId, String productName,
+                             String size, String color, Integer quantity, BigDecimal priceAtPurchase) {
         this.id = id;
         this.orderId = orderId;
         this.productId = productId;
+        this.productName = productName;
+        this.size = size;
+        this.color = color;
         this.quantity = quantity;
         this.priceAtPurchase = priceAtPurchase;
     }
@@ -43,6 +50,30 @@ public class OrderItemResponse {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public Integer getQuantity() {

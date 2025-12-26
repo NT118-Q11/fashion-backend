@@ -29,21 +29,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // Disable CSRF for public endpoints (register, login, oauth2, ratings, products, cart, users, orders)
+                // Disable CSRF for public endpoints (register, login, oauth2, password reset, ratings, products, cart, users, orders, order-items)
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/api/auth/register", "/api/auth/login",
                                 "/api/auth/oauth2/**", "/api/auth/register-gmail", "/api/auth/login-gmail",
+                                "/api/auth/password/**",
                                 "/api/ratings/**", "/api/products", "/api/products/**",
                                 "/api/cart", "/api/cart/**",
                                 "/api/favorites", "/api/favorites/**",
                                 "/api/users", "/api/users/**",
-                                "/api/orders", "/api/orders/**")
+                                "/api/orders", "/api/orders/**",
+                                "/api/order-items", "/api/order-items/**")
                 )
                 // Configure authorization
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/register-gmail", "/api/auth/login-gmail").permitAll()
                         .requestMatchers("/api/auth/oauth2/**").permitAll()
+                        .requestMatchers("/api/auth/password/**").permitAll()
                         .requestMatchers("/oauth2/**", "/login/**", "/oauth2/authorization/**").permitAll()
                         .requestMatchers("/api/ratings/**", "/api/products", "/api/products/**").permitAll() // Allow public access to ratings API
                         // Allow public access to cart endpoints (temporary for development)
@@ -54,6 +57,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/users", "/api/users/**").permitAll()
                         // Allow public access to order endpoints (temporary for development)
                         .requestMatchers("/api/orders", "/api/orders/**").permitAll()
+                        // Allow public access to order-items endpoints (temporary for development)
+                        .requestMatchers("/api/order-items", "/api/order-items/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Enable CORS
