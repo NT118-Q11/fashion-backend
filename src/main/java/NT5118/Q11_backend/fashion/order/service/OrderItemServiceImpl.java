@@ -4,6 +4,8 @@ import NT5118.Q11_backend.fashion.order.dto.OrderItemRequest;
 import NT5118.Q11_backend.fashion.order.dto.OrderItemResponse;
 import NT5118.Q11_backend.fashion.order.model.OrderItem;
 import NT5118.Q11_backend.fashion.order.repository.OrderItemRepository;
+import NT5118.Q11_backend.fashion.product.model.Product;
+import NT5118.Q11_backend.fashion.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +16,11 @@ import java.util.stream.Collectors;
 public class OrderItemServiceImpl implements OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
+    private final ProductRepository productRepository;
 
-    public OrderItemServiceImpl(OrderItemRepository orderItemRepository) {
+    public OrderItemServiceImpl(OrderItemRepository orderItemRepository, ProductRepository productRepository) {
         this.orderItemRepository = orderItemRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -77,10 +81,26 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     private OrderItemResponse mapToResponse(OrderItem orderItem) {
+        String productName = null;
+        String size = null;
+        String color = null;
+
+        // Lấy thông tin product
+        Optional<Product> productOpt = productRepository.findById(orderItem.getProductId());
+        if (productOpt.isPresent()) {
+            Product product = productOpt.get();
+            productName = product.getName();
+            size = product.getSize();
+            color = product.getColor();
+        }
+
         return new OrderItemResponse(
                 orderItem.getId(),
                 orderItem.getOrderId(),
                 orderItem.getProductId(),
+                productName,
+                size,
+                color,
                 orderItem.getQuantity(),
                 orderItem.getPriceAtPurchase()
         );
