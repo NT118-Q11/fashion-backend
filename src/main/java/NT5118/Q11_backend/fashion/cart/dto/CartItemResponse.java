@@ -8,6 +8,9 @@ public class CartItemResponse {
     private Integer quantity;
     private Double subtotal;
 
+    private String selectedSize;
+    private String selectedColor;
+
     // Constructors
     public CartItemResponse() {}
 
@@ -16,6 +19,15 @@ public class CartItemResponse {
         this.product = product;
         this.quantity = quantity;
         this.subtotal = subtotal;
+    }
+
+    public CartItemResponse(String id, ProductResponse product, Integer quantity, Double subtotal, String selectedSize, String selectedColor) {
+        this.id = id;
+        this.product = product;
+        this.quantity = quantity;
+        this.subtotal = subtotal;
+        this.selectedSize = selectedSize;
+        this.selectedColor = selectedColor;
     }
 
     // Getters and Setters
@@ -49,5 +61,21 @@ public class CartItemResponse {
 
     public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
+    }
+
+    public String getSelectedSize() {
+        return selectedSize;
+    }
+
+    public void setSelectedSize(String selectedSize) {
+        this.selectedSize = selectedSize;
+    }
+
+    public String getSelectedColor() {
+        return selectedColor;
+    }
+
+    public void setSelectedColor(String selectedColor) {
+        this.selectedColor = selectedColor;
     }
 }

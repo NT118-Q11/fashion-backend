@@ -56,7 +56,7 @@ public class CartServiceImpl implements CartService {
             cartItemRepository.save(item);
         } else {
             // Create new cart item
-            CartItem newItem = new CartItem(cart.getId(), request.getProductId(), request.getQuantity());
+            CartItem newItem = new CartItem(cart.getId(), request.getProductId(), request.getQuantity(), request.getSelectedSize(), request.getSelectedColor());
             cartItemRepository.save(newItem);
         }
 
@@ -191,7 +191,8 @@ public class CartServiceImpl implements CartService {
                 item.getId(),
                 productResponse,
                 item.getQuantity(),
-                subtotal
+                subtotal,
+                item.getSelectedSize(), item.getSelectedColor()
             );
 
             itemResponses.add(itemResponse);
