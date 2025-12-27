@@ -21,6 +21,10 @@ public class CartItem {
 
     private Integer quantity;
 
+    private String selectedSize;
+
+    private String selectedColor;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -35,6 +39,18 @@ public class CartItem {
         this.cartId = cartId;
         this.productId = productId;
         this.quantity = quantity;
+        this.selectedSize = null;
+        this.selectedColor = null;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public CartItem(String cartId, String productId, Integer quantity, String selectedSize, String selectedColor) {
+        this.cartId = cartId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.selectedSize = selectedSize;
+        this.selectedColor = selectedColor;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -70,6 +86,22 @@ public class CartItem {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getSelectedSize() {
+        return selectedSize;
+    }
+
+    public void setSelectedSize(String selectedSize) {
+        this.selectedSize = selectedSize;
+    }
+
+    public String getSelectedColor() {
+        return selectedColor;
+    }
+
+    public void setSelectedColor(String selectedColor) {
+        this.selectedColor = selectedColor;
     }
 
     public LocalDateTime getCreatedAt() {

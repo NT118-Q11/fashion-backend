@@ -16,6 +16,10 @@ public class AddToCartRequest {
     @Min(value = 1, message = "Quantity must be at least 1")
     private Integer quantity;
 
+    private String selectedSize;
+
+    private String selectedColor;
+
     // Constructors
     public AddToCartRequest() {}
 
@@ -23,6 +27,14 @@ public class AddToCartRequest {
         this.userId = userId;
         this.productId = productId;
         this.quantity = quantity;
+    }
+
+    public AddToCartRequest(String userId, String productId, Integer quantity, String selectedSize, String selectedColor) {
+        this.userId = userId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.selectedSize = selectedSize;
+        this.selectedColor = selectedColor;
     }
 
     // Getters and Setters
@@ -48,5 +60,21 @@ public class AddToCartRequest {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getSelectedSize() {
+        return selectedSize;
+    }
+
+    public void setSelectedSize(String selectedSize) {
+        this.selectedSize = selectedSize;
+    }
+
+    public String getSelectedColor() {
+        return selectedColor;
+    }
+
+    public void setSelectedColor(String selectedColor) {
+        this.selectedColor = selectedColor;
     }
 }
